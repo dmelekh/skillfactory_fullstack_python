@@ -1,0 +1,12 @@
+
+<!-- !!! NOTE that templater does not understand HTML-comments and goes into infinite recursion with include-extends interaction even if they are in commented out blocks -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ flatpage.title }}</title>
+</head>
+<body>
+{% include 'flatpages/contact_page.html' %}
+</body>
+</html>
