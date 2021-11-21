@@ -22,9 +22,9 @@ cat_econo = Category.objects.create(name='Экономика')
 
 #         Добавить 2 статьи и 1 новость.
 from news.models import Post
-article1 = Post.objects.create(author=author1, type='AR', body='text line 1\ntext line 2\ntext line 3')
-article2 = Post.objects.create(author=author2, type='AR', body='text line 4\ntext line 5\ntext line 6')
-news1 = Post.objects.create(author=author1, body='comment words')
+article1 = Post.objects.create(author=author1, type=Post.article, header='User1 article header', body='article1 line1\narticle1 line2\narticle1 line3')
+article2 = Post.objects.create(author=author2, type=Post.article, header='User2 article header', body='article2 line1\narticle2 line2\narticle2 line3')
+news1 = Post.objects.create(author=author1, header='User1 news header', body='yellow papers')
 
 #         Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).
 article1.categories.add(cat_sci)
@@ -34,10 +34,11 @@ news1.categories.add(cat_sport)
 
 #         Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
 from news.models import Comment
-comment1 = Comment.objects.create(post=article1, user=author1, body='моя статья самая научная')
-comment2 = Comment.objects.create(post=article1, user=author2, body='ты все списал у меня')
-comment3 = Comment.objects.create(post=article2, user=author1, body='это статья про котиков?')
-comment4 = Comment.objects.create(post=news1, user=author2, body='где-то я это уже видел')
+comment1 = Comment.objects.create(post=article1, user=author1.user, body='моя статья самая научная')
+comment2 = Comment.objects.create(post=article1, user=author2.user, body='ты все списал у меня')
+comment3 = Comment.objects.create(post=article2, user=author1.user, body='это статья про котиков?')
+comment4 = Comment.objects.create(post=article2, user=author2.user, body='не всем думают о политике как о науке')
+comment5 = Comment.objects.create(post=news1, user=author2.user, body='где-то я это уже видел')
 
 #         Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
 for i in range(5): article1.like()
@@ -63,6 +64,7 @@ for i in range(6): comment4.like()
 comment3.dislike()
 
 #         Обновить рейтинги пользователей.
+# from news.models import Author
 for author in Author.objects.all(): author.update_rating()
 
 #         Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
@@ -70,5 +72,16 @@ best_author = Author.objects.all().order_by('-rating')[0]
 print(f'best_author.username={best_author.user.username}, best_author.rating={best_author.rating}')
 
 #         Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
+# from news.models import Post
+articles = Post.objects.filter(type=Post.article)
+best_article = articles.order_by('-rating')[0]
+print('best article:')
+print(f'date:{best_article.time_in.date().strftime("%Y.%m.%d")}, author:{best_article.author.user}, rating:{best_article.rating}')
+print(f'header:{best_article.header}')
+print(f'preview:\n{best_article.preview()}')
 
 #         Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
+#from news.models import Comment
+best_article_comments = Comment.objects.filter(post=best_article)
+for comment in best_article_comments: print(f'time:{comment.time_in}, user:{comment.user}, rating:{comment.rating}, text:{comment.body}')
+

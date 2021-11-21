@@ -28,18 +28,23 @@ class Author(models.Model):
 #     суммарный рейтинг всех комментариев к статьям автора.
 
     def update_rating(self):
-        self.rating = self._get_rating_sum_posts() * 3 + self._get_rating_sum_comments() + self._get_rating_sum_comments_to_posts()
+        posts_rating = self._get_rating_sum_posts()
+        self.rating = posts_rating * 3 + self._get_rating_sum_comments() + self._get_rating_sum_comments_to_posts()
+        print(f'user={self.user}, rating={self.rating}')
         self.save()
 
     def _get_rating_sum_posts(self):
-        return self._get_own_posts().aggregate(Sum('rating'))
+        return self.__get_rating_sum(self._get_own_posts())
 
     def _get_rating_sum_comments(self):
-        return Comment.objects.filter(author=self).aggregate(Sum('rating'))
+        return self.__get_rating_sum(Comment.objects.filter(user=self.user))
 
     def _get_rating_sum_comments_to_posts(self):
         posts = self._get_own_posts()
-        return Comment.objects.filter(post__in=posts).aggregate(Sum('rating'))
+        return self.__get_rating_sum(Comment.objects.filter(post__in=posts))
+
+    def __get_rating_sum(self, subquery):
+        return subquery.aggregate(Sum('rating')).get('rating__sum')
 
     def _get_own_posts(self):
         return Post.objects.filter(author=self)
