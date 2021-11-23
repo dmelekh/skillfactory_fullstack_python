@@ -96,6 +96,8 @@ class Post(models.Model):
     def preview(self):
         return f'{self.body[:124]}...'
 
+    def __str__(self):
+        return f'id:{self.id}\ntype: {self.type}\nheader:{self.header}\nbody:{self.body}'
 
 # Модель PostCategory
 # Промежуточная модель для связи «многие ко многим»:

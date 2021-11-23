@@ -25,12 +25,14 @@ from news.models import Post
 article1 = Post.objects.create(author=author1, type=Post.article, header='User1 article header', body='article1 line1\narticle1 line2\narticle1 line3')
 article2 = Post.objects.create(author=author2, type=Post.article, header='User2 article header', body='article2 line1\narticle2 line2\narticle2 line3')
 news1 = Post.objects.create(author=author1, header='User1 news header', body='yellow papers')
+news2 = Post.objects.create(author=author2, header='User2 news header', body='green cards')
 
 #         Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).
 article1.categories.add(cat_sci)
 article1.categories.add(cat_econo)
 article2.categories.add(cat_polit)
 news1.categories.add(cat_sport)
+news2.categories.add(cat_sport)
 
 #         Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
 from news.models import Comment
@@ -39,6 +41,7 @@ comment2 = Comment.objects.create(post=article1, user=author2.user, body='ты �
 comment3 = Comment.objects.create(post=article2, user=author1.user, body='это статья про котиков?')
 comment4 = Comment.objects.create(post=article2, user=author2.user, body='не всем думают о политике как о науке')
 comment5 = Comment.objects.create(post=news1, user=author2.user, body='где-то я это уже видел')
+comment6 = Comment.objects.create(post=news2, user=author1.user, body='давным-давно в очень далекой галлактике')
 
 #         Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
 for i in range(5): article1.like()
