@@ -1,0 +1,19 @@
+
+{% extends 'flatpages/default.html' %}
+
+<h3>NEWS</h3>
+
+{% block content %}
+<mark>news number: {{ news|length }}</mark>
+<br><br>
+{% for article in news%}
+    <div>{{ article.header }} (id={{ article.id }})</div>
+    <div>{{ article.time_in|date:'M d Y, H:i:s.u' }}</div>
+    <div>{{ article.body|truncatewords:20 }}</div>
+    <br>
+{% endfor %}
+{% endblock content %}
+
+{% block footer %}
+News footer
+{% endblock footer %}

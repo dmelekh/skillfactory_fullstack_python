@@ -1,0 +1,9 @@
+
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<div>Article name: {{ article.header }}</div>
+<div>Author: {{ article.author.user }}</div>
+<div>Date: {{ article.time_in|date:'M d Y' }}</div>
+<div>{{ article.body }}</div>
+{% endblock content %}
