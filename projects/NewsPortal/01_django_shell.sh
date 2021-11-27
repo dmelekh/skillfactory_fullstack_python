@@ -26,6 +26,7 @@ article1 = Post.objects.create(author=author1, type=Post.article, header='User1 
 article2 = Post.objects.create(author=author2, type=Post.article, header='User2 article header', body='article2 line1\narticle2 line2\narticle2 line3')
 news1 = Post.objects.create(author=author1, header='User1 news header', body='yellow papers')
 news2 = Post.objects.create(author=author2, header='User2 news header', body='green cards')
+news2 = Post.objects.create(author=author1, header='User1 news header rovers', body='As of May 2021, there have been six successful robotically operated Mars rovers, the first five managed by the American NASA Jet Propulsion Laboratory: Sojourner (1997), Opportunity (2004), Spirit (2004), Curiosity (2012), and Perseverance (2021). The sixth is Zhurong (2021), managed by the China National Space Administration. ')
 
 #         Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).
 article1.categories.add(cat_sci)

@@ -1,15 +1,17 @@
 
 {% extends 'flatpages/default.html' %}
 
+{% load custom_filters %}
+
 <h3>NEWS</h3>
 
 {% block content %}
 <mark>news number: {{ news|length }}</mark>
 <br><br>
 {% for article in news%}
-    <div>{{ article.header }} (id={{ article.id }})</div>
+    <div><a href="/news/{{ article.id }}" style="color:blue;text-decoration:underline dotted;font-weight:600;">{{ article.header }} (id={{ article.id }})</a></div>
     <div>{{ article.time_in|date:'M d Y, H:i:s.u' }}</div>
-    <div>{{ article.body|truncatewords:20 }}</div>
+    <div>{{ article.body|censor|truncatechars:50 }}</div>
     <br>
 {% endfor %}
 {% endblock content %}
