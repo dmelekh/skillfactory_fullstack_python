@@ -1,0 +1,41 @@
+
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+News title
+{% endblock title %}
+
+{% block header %}
+News header
+{% endblock header %}
+
+{% block content %}
+<!-- {{ news }} -->
+
+<!-- Выводите новости в следующем виде — заголовок, дата публикации в формате (день.месяц.год), затем первые 20 слов текста статьи. -->
+<!-- Сверху страницы должно быть выведено количество всех новостей (используется фильтр news|length). -->
+<!-- По ссылке /news/<id новости> должна выводиться детальная информация о новости. -->
+<!-- Заголовок, дата публикации всё в том же формате, и полный текст статьи. -->
+<!-- Новости должны выводиться в порядке от более свежей к старой. -->
+<mark>news number: {{ news|length }}</mark>
+<table>
+    <tr>
+        <td><a href="/"/></a></td>
+        <td>header</td>
+        <td>date</td>
+        <td>short content</td>
+    </tr>
+    {% for article in news%}
+        <tr>
+            <td>{{ article.id }}</td>
+            <td>{{ article.header }}</td>
+            <td>{{ article.time_in|date:'M d Y' }}</td>
+            <td>{{ article.body|truncatewords:20 }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock content %}
+
+{% block footer %}
+News footer
+{% endblock footer %}
